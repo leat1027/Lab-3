@@ -18,7 +18,7 @@ int dir = 0;
         for(int i = left; i < right + 1; i++){
             coord[0] = top;
             coord[1] = i;
-            for(int i = 0; i < 2; i++){
+            for(int i = 0; i < 1; i++){
               printf("%d ", coord[0]);
               printf("%d\n", coord[1]);  
             }
@@ -29,7 +29,7 @@ int dir = 0;
        for(int i = top; i < bottom + 1; i++){
             coord[0] = i;
             coord[1] = right;
-            for(int i = 0; i < 2; i++){
+            for(int i = 0; i < 1; i++){
               printf("%d ", coord[0]);
               printf("%d\n", coord[1]);  
             }    
@@ -40,7 +40,7 @@ int dir = 0;
         for(int i = right; i >= left; i--){
             coord[0] = bottom;
             coord[1] = i;
-            for(int i = 0; i < 2; i++){
+            for(int i = 0; i < 1; i++){
               printf("%d ", coord[0]);
               printf("%d\n", coord[1]); 
             }
@@ -51,7 +51,7 @@ int dir = 0;
         for(int i = bottom; i >= top; i--){
             coord[0] = i;
             coord[1] = left;
-            for(int i = 0; i < 2; i++){
+            for(int i = 0; i < 1; i++){
               printf("%d ", coord[0]);
               printf("%d\n", coord[1]); 
             }
