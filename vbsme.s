@@ -163,7 +163,7 @@ frame5:  .word    1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5,
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
-         
+
 window5: .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -172,9 +172,9 @@ window5: .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-         
-      
-      
+
+
+
 # test 6 For the 32X32 frame and a 4X4 window size
 # The result should be 20, 7
 asize6:  .word    32, 32, 4, 4    #i, j, k, l
@@ -210,13 +210,13 @@ frame6:  .word    1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5,
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
-                  
+
 window6: .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9
 
-         
+
 # test 7 For the 32X32 frame and a 8X4 window size
 # The result should be 20, 8
 asize7:  .word    32, 32, 8, 4    #i, j, k, l
@@ -252,7 +252,7 @@ frame7:  .word    1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5,
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 
          .word    1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
-         
+
 window7: .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
@@ -281,7 +281,7 @@ frame8:  .word    9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7,
          .word    9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 1, 2, 3, 
          .word    9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 1, 2, 3, 
          .word    9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 1, 2, 3
-         
+
 window8: .word    9, 9, 9, 9, 9, 9, 9, 9, 
          .word    9, 9, 9, 9, 9, 9, 9, 9, 
          .word    9, 9, 9, 9, 9, 9, 9, 9, 
@@ -306,12 +306,12 @@ frame9:  .word    9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7,
          .word    1, 2, 9, 9, 9, 9, 91, 9, 9, 9, 96, 108, 120, 132, 0, 1, 
          .word    1, 2, 9, 9, 9, 9, 91, 9, 9, 9, 96, 108, 120, 132, 0, 1, 
          .word    1, 2, 9, 9, 9, 9, 91, 9, 9, 9, 96, 108, 120, 132, 0, 1
-         
+
 window9: .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9
-                  
+
 # test 10 For the 16X16 frame and a 8X8 window size
 # The result should be 8, 3
 asize10: .word    16, 16, 8, 8    #i, j, k, l
@@ -331,7 +331,7 @@ frame10: .word    9, 19, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 1, 2, 3,
          .word    1, 2, 3, 9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 
          .word    1, 2, 3, 9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0, 
          .word    1, 2, 3, 9, 9, 9, 9, 9, 9, 9, 9, 96, 108, 120, 132, 0
-                  
+
 window10:   .word    9, 9, 9, 9, 9, 9, 9, 9, 
             .word    9, 9, 9, 9, 9, 9, 9, 9, 
             .word    9, 9, 9, 9, 9, 9, 9, 9, 
@@ -340,7 +340,7 @@ window10:   .word    9, 9, 9, 9, 9, 9, 9, 9,
             .word    9, 9, 9, 9, 9, 9, 9, 9, 
             .word    9, 9, 9, 9, 9, 9, 9, 9, 
             .word    9, 9, 9, 9, 9, 9, 9, 9
-   
+
 
 # test 11 For the 32X32 frame and a 16X16 window size
 # The result should be 5, 16
@@ -377,7 +377,7 @@ frame11: .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-                  
+
 window11:   .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
             .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
             .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
@@ -394,7 +394,7 @@ window11:   .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
             .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
             .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
             .word    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10
-                  
+
 
 # test 12 For the 16X16 frame size and 4X4 window size
 # The result should be 12, 12 instead of 1, 0 because of the circular search pattern.
@@ -419,7 +419,7 @@ window12:   .word    0, 1, 2, 3,
             .word    1, 2, 3, 4, 
             .word    2, 3, 4, 5, 
             .word    3, 4, 5, 6 
-               
+
 
 # test 13 For the 32X32 frame and a 4X4 window size
 # The result should be 5, 16 since its the first of multiple repeating occurences
@@ -456,7 +456,7 @@ frame13: .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
          .word    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-                  
+
 window13:   .word    10, 10, 10, 10, 
             .word    10, 10, 10, 10, 
             .word    10, 10, 10, 10, 
@@ -470,14 +470,14 @@ frame14: .word    9, 9, 9, 9,
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9, 
          .word    9, 9, 9, 9
-                  
+
 window14:   .word    9, 9, 9, 9, 
             .word    9, 9, 9, 9, 
             .word    9, 9, 9, 9, 
             .word    9, 9, 9, 9
 
 
-         
+
 newline: .asciiz     "\n" 
 
 
@@ -492,32 +492,32 @@ newline: .asciiz     "\n"
 main: 
     addi    $sp, $sp, -4    # Make space on stack
     sw      $ra, 0($sp)     # Save return address
-         
+
     # Start test 1 
     ############################################################
     la      $a0, asize1     # 1st parameter: address of asize1[0]
     la      $a1, frame1     # 2nd parameter: address of frame1[0]
     la      $a2, window1    # 3rd parameter: address of window1[0] 
-   
+
     jal     vbsme           # call function
     jal     print_result    # print results to console
-    
+
     ############################################################
     # End of test 1   
 
-   
+
     # Start test 2 
     ############################################################
     la      $a0, asize2     # 1st parameter: address of asize2[0]
     la      $a1, frame2     # 2nd parameter: address of frame2[0]
     la      $a2, window2    # 3rd parameter: address of window2[0] 
-   
+
     jal     vbsme           # call function
     jal     print_result    # print results to console
     ############################################################
     # End of test 2   
-                    
-               
+
+
     # Start test 3
     ############################################################
     la      $a0, asize3     # 1st parameter: address of asize3[0]
@@ -528,8 +528,8 @@ main:
     jal     print_result    # print results to console 
     ############################################################
     # End of test 3   
-      
-      
+
+
     # Start test 4 
     ############################################################
     la      $a0, asize4     # 1st parameter: address of asize4[0]
@@ -540,8 +540,8 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 4   
-   
-   
+
+
     # Start test 5
     ############################################################
     la      $a0, asize5     # 1st parameter: address of asize5[0]
@@ -553,7 +553,7 @@ main:
     ############################################################
     # End of test 5
 
-   
+
     # Start test 6 
     ############################################################
     la      $a0, asize6     # 1st parameter: address of asize6[0]
@@ -564,7 +564,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 6
-   
+
 
     # Start test 7
     ############################################################
@@ -576,7 +576,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 7   
-   
+
 
     # Start test 8 
     ############################################################
@@ -588,8 +588,8 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 8   
-   
-   
+
+
     # Start test 9 
     ############################################################
     la      $a0, asize9     # 1st parameter: address of asize9[0]
@@ -600,8 +600,8 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 9      
-   
-   
+
+
     # Start test 10 
     ############################################################
     la      $a0, asize10        # 1st parameter: address of asize10[0]
@@ -612,8 +612,8 @@ main:
     jal     print_result        # print results to console
     ############################################################
     # End of test 10  
-   
-   
+
+
     # Start test 11
     ############################################################
     la      $a0, asize11     # 1st parameter: address of asize11[0]
@@ -624,7 +624,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 11  
-   
+
 
     # Start test 12
     ############################################################
@@ -636,7 +636,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 12  
-   
+
 
     # Start test 13
     ############################################################
@@ -648,8 +648,8 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 13  
-   
-   
+
+
     # Start test 14
     ############################################################
     la      $a0, asize14     # 1st parameter: address of asize14[0]
@@ -660,7 +660,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 14     
-   
+
     lw      $ra, 0($sp)         # Restore return address
     addi    $sp, $sp, 4         # Restore stack pointer
     jr      $ra                 # Return
@@ -671,12 +671,12 @@ print_result:
     add     $a0, $v0, $zero     # Load $v0 for printing
     li      $v0, 1              # Load the system call numbers
     syscall
-   
+
     # Print newline.
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
     syscall
-   
+
     # Printing $v1
     add     $a0, $v1, $zero      # Load $v1 for printing
     li      $v0, 1                # Load the system call numbers
@@ -686,12 +686,12 @@ print_result:
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
     syscall
-   
+
     # Print newline.
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
     syscall
-   
+
     jr      $ra                   #function return
 
 #####################################################################
@@ -776,64 +776,55 @@ print_result:
 
 # Begin subroutine
 vbsme:  
-    li      $v0, 0              # reset $v0 and $V1
-    li      $v1, 0
+    li       $v0, 0              # reset $v0 and $V1
+    li       $v1, 0
 
-    # insert your code here
-	
-	lw		$s0, 0($a0)		# frame [i, j] and window [k, l]
-	lw		$s1, 4($a0)
-	lw		$s2, 8($a0)
-	lw		$s3, 12($a0)
-	addi 	$s6, 2,147,483,647
-#	lw		$t4, 0($a1)		# frame[0][0]
-#	lw		$t5, 0($a2)		# window[0][0]	
-	
-	sub 	$s4, $s0, $s2	# i-k
-	sub 	$s5, $s1, $s3	# j-l
-	
-#	add $s4, $zero, $zero
-	add 	$t0, $zero, $zero
-	addi	$t1, $zero, 1
-	add		$t9, $zero, $zero
-	add		$t2, $zero, $zero
-part1:	
-	slt 	$t6, $t0, $s2
-	bne 	$t6, $zero, part2
-	j part3
-part2:
-	
-	sll 	$t8, $t9, 2
-	add 	$t8, $t8, $a2
-	lw		$t4, 0($t8)
-	sll		$t8, $t2, 2
-	add 	$t8, $t8, $a1	
-	lw		$t5, 0($t8)
-	
-	sub 	$t3, $t4, $t5
-	abs 	$t3, $t3
-	add 	$s7, $t3, $zero
-	addi 	$t0, 1
-	addi 	$t2, 1
-	addi	$t9, 1
-	j part1
-part3:
-	slt 	$t6, $t1, $s3
-	bne		$t6, $zero, part4
-	j partSad
-part4:
-	mul 	$t2, $s0, $t1
-	mul 	$t9, $s2, $t1
-	add 	$t0, $zero, $zero
-	addi	$t1, 1
-	j part1
-partSad:
-	slt 	$t6, $s7, $s6
-	bne 	$t6, $zero, partSad2
-	add 	$s7, $zero, $zero	# set SAD2 0
-	j part1
-partSad2:
-	add 	$s6, $s7, $zero		# set new SAD
-	add 	$s7, $zero, $zero	# set SAD2 0
-	
-	j part1
+    lw       $s1, 0($a0)
+    lw       $s2, 4($a0)
+    lw       $s3, 8($a0)
+    lw       $s4, 12($a0)
+
+    j        sad
+
+    jr       $ra
+
+sad:
+    mul      $s5, $s3, $s4
+    mul      $s5, $s5, 4
+    sub      $s5, $s5, 4
+    addi     $t6, $zero, 0  #initalize index and sad to zero
+    addi     $t5, $zero, 0
+    addi     $t7, $zero, 0
+loop:
+    sll      $s6, $t5, 2
+    add      $s6, $s6, $a1
+    lw       $t3, 0($s6)
+    sll      $s6, $t7, 2
+    add      $s6, $s6, $a2
+    lw       $t4, 0($s6)
+
+    sub      $t0, $t3, $t4   # take difference
+
+    add      $t1, $zero, $zero      #copy r1 into r2
+    add      $t1, $zero, $t0      #copy r1 into r2
+    slt      $t2, $t0, $zero      #is value < 0 ?
+    beq      $t2, $zero, foobar   #if r1 is positive, skip next inst
+    sub      $t1, $zero, $t1      #r2 = 0 - r1
+    add      $t0, $zero, $t1      #copy r1 into r2
+    add      $t6, $t0, $t6  #add on to sad
+check:
+    slt      $t2, $t5, $s5
+    bne      $t2, $zero, orange
+    j        escape
+orange:
+    addi     $t5, $t5, 4
+    j        loop
+
+    addi     $t7, $t7, 4 #more compelx than adding 4
+    j        loop
+foobar:
+    add      $t6, $t0, $t6  #add on to sad
+    j        check
+escape:
+    addi     $v1, $t6, 0
+    jr       $ra
