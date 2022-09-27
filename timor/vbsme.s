@@ -785,16 +785,22 @@ vbsme:
 	lw		$s1, 4($a0)
 	lw		$s2, 8($a0)
 	lw		$s3, 12($a0)
-	addi 	$s6, 2,147,483,647
+#	addi 	$s6, $zero, 2147483647
 #	lw		$t4, 0($a1)		# frame[0][0]
 #	lw		$t5, 0($a2)		# window[0][0]	
 	
-	sub 	$s4, $s0, $s2	# i-k
-	sub 	$s5, $s1, $s3	# j-l
-	
+#	sub 	$s4, $s0, $s2	# i-k
+#    addi    $s4, 1
+#	sub 	$s5, $s1, $s3	# j-l
+#    addi    $s5, 1
+
+    add     $t8, $zero, $zero # 0 right, 1 down, 2 left, 3 up
+
+    add     $s4, $zero, $zero # x
+    add     $s5, $zero, $zero # y
 #	add $s4, $zero, $zero
 	add 	$t0, $zero, $zero
-	addi	$t1, $zero, 1
+	add 	$t1, $zero, $zero
 	add		$t9, $zero, $zero
 	add		$t2, $zero, $zero
 part1:	
@@ -803,12 +809,12 @@ part1:
 	j part3
 part2:
 	
-	sll 	$t8, $t9, 2
-	add 	$t8, $t8, $a2
-	lw		$t4, 0($t8)
-	sll		$t8, $t2, 2
-	add 	$t8, $t8, $a1	
-	lw		$t5, 0($t8)
+	sll 	$t6, $t9, 2
+	add 	$t6, $t6, $a2
+	lw		$t4, 0($t6)
+	sll		$t6, $t2, 2
+	add 	$t6, $t6, $a1	
+	lw		$t5, 0($t6)
 	
 	sub 	$t3, $t4, $t5
 	abs 	$t3, $t3
@@ -822,18 +828,45 @@ part3:
 	bne		$t6, $zero, part4
 	j partSad
 part4:
+    addi	$t1, 1
 	mul 	$t2, $s0, $t1
 	mul 	$t9, $s2, $t1
 	add 	$t0, $zero, $zero
-	addi	$t1, 1
+	
 	j part1
 partSad:
 	slt 	$t6, $s7, $s6
 	bne 	$t6, $zero, partSad2
 	add 	$s7, $zero, $zero	# set SAD2 0
-	j part1
+	j moveCondition
 partSad2:
 	add 	$s6, $s7, $zero		# set new SAD
 	add 	$s7, $zero, $zero	# set SAD2 0
-	
-	j part1
+    add     $v0, $s4, $zero
+    add     $v1, $s5, $zero
+	j moveCondition
+
+moveCondition:
+    addi    $t5, $zero, 3
+    addi    $t4, $zero, 2
+    addi    $t3, $zero, 1
+    bne     $t8, $t5, conditionLeft
+    j conditionUp
+conditionUp:
+    slt     
+conditionLeft:
+    bne     $t8, $t4, conditionDown
+conditionDown:
+    bne     $t8, $t3, conditionRight
+
+
+conditionRight:    
+    sub 	$t6, $s0, $s2	# i-k
+    addi    $t6, $t6, 1
+    slt     $t6, $s4, $t6
+    bne     $t6, $zero, moveRight
+    addi     $t8, $t8, 1
+    j 
+moveRight:
+    addi     $s4, $s4, 1
+    addi    $t0, 1
