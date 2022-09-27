@@ -776,55 +776,64 @@ print_result:
 
 # Begin subroutine
 vbsme:  
-    li       $v0, 0              # reset $v0 and $V1
-    li       $v1, 0
+    li      $v0, 0              # reset $v0 and $V1
+    li      $v1, 0
 
-    lw       $s1, 0($a0)
-    lw       $s2, 4($a0)
-    lw       $s3, 8($a0)
-    lw       $s4, 12($a0)
-
-    j        sad
-
-    jr       $ra
-
-sad:
-    mul      $s5, $s3, $s4
-    mul      $s5, $s5, 4
-    sub      $s5, $s5, 4
-    addi     $t6, $zero, 0  #initalize index and sad to zero
-    addi     $t5, $zero, 0
-    addi     $t7, $zero, 0
-loop:
-    sll      $s6, $t5, 2
-    add      $s6, $s6, $a1
-    lw       $t3, 0($s6)
-    sll      $s6, $t7, 2
-    add      $s6, $s6, $a2
-    lw       $t4, 0($s6)
-
-    sub      $t0, $t3, $t4   # take difference
-
-    add      $t1, $zero, $zero      #copy r1 into r2
-    add      $t1, $zero, $t0      #copy r1 into r2
-    slt      $t2, $t0, $zero      #is value < 0 ?
-    beq      $t2, $zero, foobar   #if r1 is positive, skip next inst
-    sub      $t1, $zero, $t1      #r2 = 0 - r1
-    add      $t0, $zero, $t1      #copy r1 into r2
-    add      $t6, $t0, $t6  #add on to sad
-check:
-    slt      $t2, $t5, $s5
-    bne      $t2, $zero, orange
-    j        escape
-orange:
-    addi     $t5, $t5, 4
-    j        loop
-
-    addi     $t7, $t7, 4 #more compelx than adding 4
-    j        loop
-foobar:
-    add      $t6, $t0, $t6  #add on to sad
-    j        check
-escape:
-    addi     $v1, $t6, 0
-    jr       $ra
+    # insert your code here
+	
+	lw		$s0, 0($a0)		# frame [i, j] and window [k, l]
+	lw		$s1, 4($a0)
+	lw		$s2, 8($a0)
+	lw		$s3, 12($a0)
+	addi 	$s6, 2,147,483,647
+#	lw		$t4, 0($a1)		# frame[0][0]
+#	lw		$t5, 0($a2)		# window[0][0]	
+	
+	sub 	$s4, $s0, $s2	# i-k
+	sub 	$s5, $s1, $s3	# j-l
+	
+#	add $s4, $zero, $zero
+	add 	$t0, $zero, $zero
+	addi	$t1, $zero, 1
+	add		$t9, $zero, $zero
+	add		$t2, $zero, $zero
+part1:	
+	slt 	$t6, $t0, $s2
+	bne 	$t6, $zero, part2
+	j part3
+part2:
+	
+	sll 	$t8, $t9, 2
+	add 	$t8, $t8, $a2
+	lw		$t4, 0($t8)
+	sll		$t8, $t2, 2
+	add 	$t8, $t8, $a1	
+	lw		$t5, 0($t8)
+	
+	sub 	$t3, $t4, $t5
+	abs 	$t3, $t3
+	add 	$s7, $t3, $zero
+	addi 	$t0, 1
+	addi 	$t2, 1
+	addi	$t9, 1
+	j part1
+part3:
+	slt 	$t6, $t1, $s3
+	bne		$t6, $zero, part4
+	j partSad
+part4:
+	mul 	$t2, $s0, $t1
+	mul 	$t9, $s2, $t1
+	add 	$t0, $zero, $zero
+	addi	$t1, 1
+	j part1
+partSad:
+	slt 	$t6, $s7, $s6
+	bne 	$t6, $zero, partSad2
+	add 	$s7, $zero, $zero	# set SAD2 0
+	j part1
+partSad2:
+	add 	$s6, $s7, $zero		# set new SAD
+	add 	$s7, $zero, $zero	# set SAD2 0
+	
+	j part1
