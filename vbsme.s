@@ -954,14 +954,32 @@ escape:
     beq      $s3, $t2, eastjump
 change:
     addi     $t9, $t6, 0
-    addi     $v0, $zero, $s6
-    addi     $v1, $zero, $s7
 
     addi     $t2, $zero, 0
-    beq      $s3, $t2, northjump
+    beq      $s3, $t2, changenorth
     addi     $t2, $zero, 1
-    beq      $s3, $t2, southjump
+    beq      $s3, $t2, changesouth
     addi     $t2, $zero, 2
-    beq      $s3, $t2, westjump
-    addi     $t2, $zero, 3
-    beq      $s3, $t2, eastjump
+    beq      $s3, $t2, changewest
+    addi     $t2, $zero, 2
+    beq      $s3, $t2, changeeast
+changenorth:
+    addi     $v0, $zero, $s7
+    addi     $v1, $zero, $s4
+
+    j       northjump
+changesouth:
+    addi     $v0, $zero, $s2
+    addi     $v1, $zero, $s4
+
+    j       southjump
+changewest:
+    addi     $v0, $zero, $s4
+    addi     $v1, $zero, $s1
+
+    j       westjump
+changeeast:
+    addi     $v0, $zero, $s4
+    addi     $v1, $zero, $s6
+
+    j       eastjump
