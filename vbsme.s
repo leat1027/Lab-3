@@ -779,17 +779,103 @@ vbsme:
     li       $v0, 0              # reset $v0 and $V1
     li       $v1, 0
 
-    lw       $s1, 0($a0)
-    lw       $s2, 4($a0)
-    lw       $s3, 8($a0)
-    lw       $s4, 12($a0)
-
     addi     $t9, $zero, 2000000
 
 move:
     addi     $s0, $a1, 0   #move
 
-    #if done moving jump to done
+        lw       $t1, 0($a0)
+    lw       $t2, 8($a0)
+    sub      $s1, $t1, $t2 	#bottom = row1 - row2
+    lw       $t1, 4($a0)
+    lw       $t2, 12($a0)
+    sub      $s2, $t1, $t2 	#right = col1 - col2
+    add      $s6, $s6, $zero 	#top = 0
+    add      $s7, $s7, $zero 	#left = 0
+    addi     $s3, $s3, $zero 	#direction = 0
+
+while:
+    sle      $t1, $s6, $s1 	#t1=1(true) if top <= bottom
+    sle      $t2, $s7, $s2 	#t2=1(true) if left <= right
+    and      $t1, $t1, $t2 	#t1=1 (true) if $t1 and $t2 are 1
+    beq      $t1, $zero, exit 	#exit bc while loop not true
+    add      $t1, $t1, $zero 	#t1=0
+    beq      $s3, $zero, east 	#branch east if s3=0
+    addi     $t1, $t1, 1 	#add 1 to direction
+    beq      $s3, $t1, south 	#branch south if s3=1
+    addi     $t1, $t1, 1 	#add 1 to direction
+    beq      $s3, $t1, west 	#branch west if s3=2
+    addi     $t1, $t1, 1 	#add 1 to direction
+    beq      $s3, $t1, north 	#branch north if s3=3
+
+east:
+    add $t1, $s7, $zero 	# $t1 = left = i
+    sle $t2, $t1, $s2		# $t2 = 1 if left <= right
+    bne $t2, $zero, east2       #if $t2 = 0 branch to east2
+        j        sad
+
+eastjump:#collect SAD and coordinate?
+    addi $t1, $t1, 1		#i++
+    j east
+
+
+
+east2:
+   addi $s3, $s3, 1 		# dir++
+   addi $s6, $s6, 1		# top++
+   j while
+
+
+south:
+   add $t1, $s6, $zero 		# $t1 = top = i
+   sle $t2, $t1, $s1		# $t2 = 1 if top <= bottom
+   bne $t2, $zero, east2        #if $t2 = 0 branch to south2
+    j        sad
+southjump:
+   addi $t1, $t1, 1		#i++
+
+
+   j south
+
+south2:
+    addi $s3, $s3, 1 		# dir++
+    addi $s2, $s2, -1		# right--
+    j while
+
+
+
+
+west:
+
+    add $t1, $s2, $zero 		# $t1 = right = i
+    slt $t2, $t1, $s2		# $t2 = 1 if right >= left
+    bne $t2, $zero, west2       	#if $t2 = 0 branch to west2
+    j        sad
+westjump:
+    addi $t1, $t1, -1		#i--
+    j west
+
+
+west2:
+    addi $s3, $s3, 1 		# dir++
+    addi $s1, $s1, -1		# bottom--
+    j while
+
+
+north:
+    add $t1, $s1, $zero 		# $t1 = bottom = i
+    slt $t2, $t1, $s6		# $t2 = 1 if bottom < top
+    bne $t2, $zero, east2        #if $t2 = 0 branch to north2
+    j        sad
+northjump:
+    addi $t1, $t1, -1		#i--
+
+    j north
+
+north2:
+    addi $s3, $s3, -3 		# dir=dir-3
+    addi $s7, $s7, 1		# left++
+    j while
 
     j        sad
 
@@ -797,7 +883,9 @@ done:
     jr       $ra
 
 sad:
-    mul      $s5, $s3, $s4
+    lw       $t2, 8($a0)
+    lw       $t1, 12($a0)
+    mul      $s5, $t2, $t1
     mul      $s5, $s5, 4
     sub      $s5, $s5, 4
     addi     $t6, $zero, 0  #initalize index and sad to zero
@@ -825,7 +913,8 @@ check:
 orange:
     addi     $t5, $t5, 4
 
-    mul      $t8, $s4, 4
+    lw       $t1, 12($a0)
+    mul      $t8, $t1, 4
     sub      $t8, $t8, 4
     slt      $t2, $t7, $t8
     beq      $t2, $zero, wrap
@@ -834,7 +923,8 @@ next:
     addi     $t7, $t7, 4
     j        loop
 wrap:
-    mul      $t8, $s2, 4
+    lw       $t2, 4($a0)
+    mul      $t8, $t2, 4
     add      $s0, $t8, $s0
     addi     $t7, $zero, 0
     j        loop
@@ -844,7 +934,25 @@ foobar:
 escape:
     slt      $t2, $t6, $t9
     bnq      $t2, $zero, change
-    j        move
+
+    addi     $t2, $zero, 0
+    beq      $s3, $t2, northjump
+    addi     $t2, $zero, 1
+    beq      $s3, $t2, southjump
+    addi     $t2, $zero, 2
+    beq      $s3, $t2, westjump
+    addi     $t2, $zero, 2
+    beq      $s3, $t2, eastjump
 change:
     addi     $t9, $t6, 0
-    j        move
+    addi     $v0, $zero, $s6
+    addi     $v1, $zero, $s7
+
+    addi     $t2, $zero, 0
+    beq      $s3, $t2, northjump
+    addi     $t2, $zero, 1
+    beq      $s3, $t2, southjump
+    addi     $t2, $zero, 2
+    beq      $s3, $t2, westjump
+    addi     $t2, $zero, 3
+    beq      $s3, $t2, eastjump
