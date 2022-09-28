@@ -1,5 +1,5 @@
 #  Fall 2022
-#  Team Members:
+#  Team Members: Timor 33% ; Logan 33% ; Evan 33%
 #  % Effort    :
 #
 # ECE369A,
