@@ -784,7 +784,7 @@ vbsme:
 move:
     addi     $s0, $a1, 0   #move
 
-        lw       $t1, 0($a0)
+    lw       $t1, 0($a0)
     lw       $t2, 8($a0)
     sub      $s1, $t1, $t2 	#bottom = row1 - row2
     lw       $t1, 4($a0)
@@ -878,7 +878,7 @@ north2:
     addi $s7, $s7, 1		# left++
     j while
 
-    j        sad
+   
 
 done:
     jr       $ra
