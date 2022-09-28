@@ -793,7 +793,7 @@ move:
     add      $s6, $s6, $zero 	#top = 0
     add      $s7, $s7, $zero 	#left = 0
     addi     $s3, $s3, $zero 	#direction = 0
-
+    addi     $s4, $zero, 0          #i=0      
 while:
     sle      $t1, $s6, $s1 	#t1=1(true) if top <= bottom
     sle      $t2, $s7, $s2 	#t2=1(true) if left <= right
@@ -809,13 +809,14 @@ while:
     beq      $s3, $t1, north 	#branch north if s3=3
 
 east:
-    add $t1, $s7, $zero 	# $t1 = left = i
-    sle $t2, $t1, $s2		# $t2 = 1 if left <= right
+    add $s4, $s7, $zero 	# $s4 = left = i
+    sle $t2, $s4, $s2		# $t2 = 1 if left <= right
     bne $t2, $zero, east2       #if $t2 = 0 branch to east2
-        j        sad
+       
+       j        sad
 
-eastjump:#collect SAD and coordinate?
-    addi $t1, $t1, 1		#i++
+eastjump:                  #collect SAD and coordinate?
+    addi $s4, $s4, 1		#i++
     j east
 
 
@@ -827,12 +828,12 @@ east2:
 
 
 south:
-   add $t1, $s6, $zero 		# $t1 = top = i
-   sle $t2, $t1, $s1		# $t2 = 1 if top <= bottom
+   add $s4, $s6, $zero 		# $s4 = top = i
+   sle $t2, $s4, $s1		# $t2 = 1 if top <= bottom
    bne $t2, $zero, east2        #if $t2 = 0 branch to south2
     j        sad
 southjump:
-   addi $t1, $t1, 1		#i++
+   addi $s4, $s4, 1		#i++
 
 
    j south
@@ -847,12 +848,12 @@ south2:
 
 west:
 
-    add $t1, $s2, $zero 		# $t1 = right = i
-    slt $t2, $t1, $s2		# $t2 = 1 if right >= left
+    add $s4, $s2, $zero 		# $s4 = right = i
+    slt $t2, $s4, $s2		# $t2 = 1 if right >= left
     bne $t2, $zero, west2       	#if $t2 = 0 branch to west2
     j        sad
 westjump:
-    addi $t1, $t1, -1		#i--
+    addi $s4, $s4, -1		#i--
     j west
 
 
@@ -863,12 +864,12 @@ west2:
 
 
 north:
-    add $t1, $s1, $zero 		# $t1 = bottom = i
-    slt $t2, $t1, $s6		# $t2 = 1 if bottom < top
+    add $s4, $s1, $zero 		# $s4 = bottom = i
+    slt $t2, $s4, $s6		# $t2 = 1 if bottom < top
     bne $t2, $zero, east2        #if $t2 = 0 branch to north2
     j        sad
 northjump:
-    addi $t1, $t1, -1		#i--
+    addi $s4, $s4, -1		#i--
 
     j north
 
