@@ -820,7 +820,8 @@ while:
     beq      $s3, $t1, north 	#branch north if s3=3
 
 east:
-    add $s4, $s7, $zero 	# $s4 = left = i
+    add $s4, $s7, $zero 	# $s4 = left = $s7
+eastloop:
     sle $t2, $s4, $s2		# $t2 = 1 if left <= right
     beq $t2, $zero, east2       #if $t2 = 0 branch to east2
     addi $s0, $s0, 4                #for east $s0 adds 4
@@ -829,7 +830,7 @@ east:
 
 eastjump:                  #collect SAD and coordinate?
     addi $s4, $s4, 1		#i++
-    j east
+    j eastloop
 
 
 
@@ -841,6 +842,7 @@ east2:
 
 south:
    add $s4, $s6, $zero 		# $s4 = top = i
+southloop:
    sle $t2, $s4, $s1		# $t2 = 1 if top <= bottom
    beq $t2, $zero, east2        #if $t2 = 0 branch to south2
    lw $t1, 4($a0)                   # $t1 = # of rows
@@ -849,7 +851,7 @@ south:
     j        sad
 southjump:
    addi $s4, $s4, 1		#i++
-   j south
+   j southloop
 
 south2:
     addi $s3, $s3, 1 		# dir++
@@ -860,15 +862,15 @@ south2:
 
 
 west:
-
     add $s4, $s2, $zero 		# $s4 = right = i
+westloop:
     slt $t2, $s4, $s2		# $t2 = 1 if right >= left
     beq $t2, $zero, west2       	#if $t2 = 0 branch to west2
     addi $s0, $s0, -4                #for east $s0 adds 4
     j        sad
 westjump:
     addi $s4, $s4, -1		#i--
-    j west
+    j westloop
 
 
 west2:
@@ -879,6 +881,7 @@ west2:
 
 north:
     add $s4, $s1, $zero 		# $s4 = bottom = i
+northloop:    
     slt $t2, $s4, $s6		# $t2 = 1 if bottom < top
     beq $t2, $zero, east2        #if $t2 = 0 branch to north2
     lw $t1, 4($a0)                   # $t1 = # of rows
@@ -887,8 +890,7 @@ north:
     j        sad
 northjump:
     addi $s4, $s4, -1		#i--
-
-    j north
+    j northloop
 
 north2:
     addi $s3, $s3, -3 		# dir=dir-3
