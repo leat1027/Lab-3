@@ -784,8 +784,16 @@ vbsme:
     lw       $s3, 8($a0)
     lw       $s4, 12($a0)
 
+    addi     $t9, $zero, 2000000
+
+move:
+    addi     $s0, $a1, 0   #move
+
+    #if done moving jump to done
+
     j        sad
 
+done:
     jr       $ra
 
 sad:
@@ -796,11 +804,9 @@ sad:
     addi     $t5, $zero, 0
     addi     $t7, $zero, 0
 loop:
-    sll      $s6, $t5, 2
-    add      $s6, $s6, $a1
+    add      $s6, $t7, $s0
     lw       $t3, 0($s6)
-    sll      $s6, $t7, 2
-    add      $s6, $s6, $a2
+    add      $s6, $t5, $a2
     lw       $t4, 0($s6)
 
     sub      $t0, $t3, $t4   # take difference
@@ -818,13 +824,27 @@ check:
     j        escape
 orange:
     addi     $t5, $t5, 4
-    j        loop
 
-    addi     $t7, $t7, 4 #more compelx than adding 4
+    mul      $t8, $s4, 4
+    sub      $t8, $t8, 4
+    slt      $t2, $t7, $t8
+    beq      $t2, $zero, wrap
+
+next:
+    addi     $t7, $t7, 4
+    j        loop
+wrap:
+    mul      $t8, $s2, 4
+    add      $s0, $t8, $s0
+    addi     $t7, $zero, 0
     j        loop
 foobar:
     add      $t6, $t0, $t6  #add on to sad
     j        check
 escape:
-    addi     $v1, $t6, 0
-    jr       $ra
+    slt      $t2, $t6, $t9
+    bnq      $t2, $zero, change
+    j        move
+change:
+    addi     $t9, $t6, 0
+    j        move
