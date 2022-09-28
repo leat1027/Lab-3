@@ -790,17 +790,17 @@ move:
     lw       $t1, 4($a0)
     lw       $t2, 12($a0)
     sub      $s2, $t1, $t2 	#right = col1 - col2
-    add      $s6, $s6, $zero 	#top = 0
-    add      $s7, $s7, $zero 	#left = 0
-    addi     $s3, $s3, $zero 	#direction = 0
+    addi     $s6, $zero, 0 	#top = 0
+    addi     $s7, $zero, 0	         #left = 0
+    addi     $s3, $zero, 0	         #direction = 0
     addi     $s4, $zero, 0          #i=0      
 while:
     sle      $t1, $s6, $s1 	#t1=1(true) if top <= bottom
     sle      $t2, $s7, $s2 	#t2=1(true) if left <= right
     and      $t1, $t1, $t2 	#t1=1 (true) if $t1 and $t2 are 1
     beq      $t1, $zero, exit 	#exit bc while loop not true
-    add      $t1, $t1, $zero 	#t1=0
-    beq      $s3, $zero, east 	#branch east if s3=0
+    add      $t1, $zero, 0 	#t1=0
+    beq      $s3, $t1, east 	#branch east if s3=0
     addi     $t1, $t1, 1 	#add 1 to direction
     beq      $s3, $t1, south 	#branch south if s3=1
     addi     $t1, $t1, 1 	#add 1 to direction
