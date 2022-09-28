@@ -816,6 +816,7 @@ east:
        j        sad
 
 eastjump:                  #collect SAD and coordinate?
+    addi $s0, $s0, 4                #for east $s0 adds 4
     addi $s4, $s4, 1		#i++
     j east
 
@@ -833,6 +834,9 @@ south:
    bne $t2, $zero, east2        #if $t2 = 0 branch to south2
     j        sad
 southjump:
+   lw $t1, 4($a0)                   # $t1 = # of rows
+   mul $t1, $t1, 4                  # $t1 = $t1 * 4
+   add $s0, $s0, $t1                # $s0 = #s0 + #t1
    addi $s4, $s4, 1		#i++
 
 
@@ -853,6 +857,7 @@ west:
     bne $t2, $zero, west2       	#if $t2 = 0 branch to west2
     j        sad
 westjump:
+    addi $s0, $s0, -4                #for east $s0 adds 4
     addi $s4, $s4, -1		#i--
     j west
 
@@ -869,6 +874,9 @@ north:
     bne $t2, $zero, east2        #if $t2 = 0 branch to north2
     j        sad
 northjump:
+    lw $t1, 4($a0)                   # $t1 = # of rows
+    mul $t1, $t1, 4                  # $t1 = $t1 * 4
+    sub $s0, $s0, $t1                # $s0 = #s0 - #t1
     addi $s4, $s4, -1		#i--
 
     j north
