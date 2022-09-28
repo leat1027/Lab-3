@@ -886,7 +886,7 @@ conditionRight:
     slt     $t6, $s4, $t6	# x < j-l*
     bne     $t6, $zero, moveRight
 	addi    $t8, $t8, 1
-	addi 	$s1, $s1, 1
+	addi 	$s3, $s3, 1
 	addi 	$t7, $t7, 1
 	beq 	$t7, $t0, exit
     j conditionDown
@@ -900,7 +900,7 @@ conditionDown:
     slt     $t6, $s5, $t6	# y < i-k*
     bne     $t6, $zero, moveDown
 	addi    $t8, $t8, 1
-	addi 	$s0, $s0, 1
+	addi 	$s1, $s1, 1
 	addi 	$t7, $t7, 1
 	beq 	$t7, $t0, exit
 	j conditionLeft
@@ -910,7 +910,7 @@ conditionLeft:
     slt     $t6, $s2, $s4	# x* < x
     bne     $t6, $zero, moveLeft
 	addi    $t8, $t8, 1
-	addi 	$s2, $s2, 1
+	addi 	$s0, $s0, 1
 	addi 	$t7, $t7, 1
 	beq 	$t7, $t0, exit
     j conditionUp
@@ -920,7 +920,7 @@ conditionUp:
     slt     $t6, $s3, $s5	# y* < y
     bne     $t6, $zero, moveUp
 	add    	$t8, $zero, $zero
-	addi 	$s3, $s3, 1
+	addi 	$s2, $s2, 1
 	addi 	$t7, $t7, 1
 	beq 	$t7, $t0, exit
     j conditionRight
