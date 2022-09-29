@@ -790,8 +790,8 @@ vbsme:
     add     	$s7, $zero, $zero	# sad2
     add     	$t8, $zero, $zero   	#0 right, 1 down, 2 left, 3 up
 
-    add     	$s4, $zero, $zero # x (column)
-    add     	$s5, $zero, $zero # y  (row)
+    add     	$s4, $zero, $zero 	# x (column)
+    add     	$s5, $zero, $zero 	# y  (row)
 
     lw		$s0, 8($a0)     	# k	down limit
     lw 		$s1, 12($a0) 		# l	right limit
