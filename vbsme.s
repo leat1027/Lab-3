@@ -883,7 +883,7 @@ north:
     add $s4, $s1, $zero 		# $s4 = bottom = i
 northloop:    
     slt $t2, $s4, $s6		# $t2 = 1 if bottom < top
-    beq $t2, $zero, east2        #if $t2 = 0 branch to north2
+    beq $t2, $zero, north2        #if $t2 = 0 branch to north2
     lw $t1, 4($a0)                   # $t1 = # of rows
     mul $t1, $t1, 4                  # $t1 = $t1 * 4
     sub $s0, $s0, $t1                # $s0 = #s0 - #t1
