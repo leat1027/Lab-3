@@ -775,175 +775,167 @@ print_result:
 
 
 # Begin subroutine
+
+#
+#
+#
+#
+#
+
 vbsme:  
-    li      $v0, 0              # reset $v0 and $V1
-    li      $v1, 0
+    li      	$v0, 0			# reset $v0 and $V1
+    li      	$v1, 0
+	
+    addi    	$s6, $zero, 32767	# sad
+    add     	$s7, $zero, $zero	# sad2
+    add     	$t8, $zero, $zero   	#0 right, 1 down, 2 left, 3 up
 
-    # insert your code here
-	
-	addi 	$s6, $zero, 32767	# sad
-	add 	$s7, $zero, $zero	# sad2
-    add     $t8, $zero, $zero # 0 right, 1 down, 2 left, 3 up
+    add     	$s4, $zero, $zero # x (column)
+    add     	$s5, $zero, $zero # y  (row)
 
-    add     $s4, $zero, $zero # x (column)
-    add     $s5, $zero, $zero # y  (row)
+    lw		$s0, 8($a0)     	# k	down limit
+    lw 		$s1, 12($a0) 		# l	right limit
 
-	lw		$s0, 8($a0) # k			down limit
-#	addi 	$s0, $s0, -1	# down 
-	
-	lw 		$s1, 12($a0) 	# l		right limit
-#	addi 	$s1, $s1, -1	# right
-	
-	add 	$s2, $zero, $zero	# left	left limit
-	
-	add 	$s3, $zero, $zero	# up	up limit
-	
-	add 	$t7, $zero, $zero	# for quitting when reaching middle
+    add 	$s2, $zero, $zero	# left	left limit
+
+    add 	$s3, $zero, $zero	# up	up limit
+
+    add 	$t7, $zero, $zero	# for quitting when reaching middle
 	
 part0:
-	add 	$t0, $zero, $zero
-	add 	$t1, $zero, $zero
-	add		$t9, $zero, $zero
-	add		$t2, $zero, $zero
+    add 	$t0, $zero, $zero
+    add 	$t1, $zero, $zero
+    add		$t9, $zero, $zero
+    add		$t2, $zero, $zero
 	
 part1:	
-	lw		$t6, 12($a0) # l
-	slt 	$t6, $t0, $t6		# !end of row, loop
-	bne 	$t6, $zero, part2
-	j part3
+    lw		$t6, 12($a0) # l
+    slt 	$t6, $t0, $t6		# !end of row, loop
+    bne 	$t6, $zero, part2
+    j part3
 	
 part2:
+    sll 	$t6, $t9, 2			
+    add 	$t6, $t6, $a2
+    lw		$t4, 0($t6)		# t4 window
 	
-	sll 	$t6, $t9, 2			
-	add 	$t6, $t6, $a2
-	lw		$t4, 0($t6)			# t4 window
+    sll		$t6, $t2, 2
+    add 	$t6, $t6, $a1	
+    lw		$t5, 0($t6)		# t5 frame
 	
-	sll		$t6, $t2, 2
-	add 	$t6, $t6, $a1	
-	lw		$t5, 0($t6)			# t5 frame
-	
-	sub 	$t3, $t4, $t5
-	abs 	$t3, $t3
-	add 	$s7, $s7, $t3		# sad2
-	addi 	$t0, $t0, 1			# next column
-	addi 	$t2, $t2, 1
-	addi	$t9, $t9, 1
-	j part1
+    sub 	$t3, $t4, $t5
+    abs 	$t3, $t3
+    add 	$s7, $s7, $t3		# sad2
+    addi 	$t0, $t0, 1		# next column
+    addi 	$t2, $t2, 1
+    addi	$t9, $t9, 1
+    j		part1
 	
 part3:
-	addi	$t1, $t1, 1			# next row
-	lw 		$t6, 8($a0)			# k
-	slt 	$t6, $t1, $t6	# t1 < k	
-	bne		$t6, $zero, part4
-	j partSad
+    addi	$t1, $t1, 1		# next row
+    lw 		$t6, 8($a0)		# k
+    slt 	$t6, $t1, $t6		# t1 < k	
+    bne		$t6, $zero, part4
+    j 		partSad
 	
 part4:
-	lw		$t6, 0($a0)	# i
-	mul 	$t2, $t6, $s5	# i*y
-	mul 	$t6, $t6, $t1	# i*t1
-	add		$t2, $t6, $t2
-	add		$t2, $t2, $s4	# +x
+    lw		$t6, 0($a0)		# i
+    mul 	$t2, $t6, $s5		# i*y
+    mul 	$t6, $t6, $t1		# i*t1
+    add		$t2, $t6, $t2
+    add		$t2, $t2, $s4		# +x
 	
-	lw		$t6, 12($a0)		# l
-	mul 	$t9, $t6, $t1	# l*t1
-	add 	$t0, $zero, $zero
-	j part1
+    lw		$t6, 12($a0)		# l
+    mul 	$t9, $t6, $t1		# l*t1
+    add 	$t0, $zero, $zero
+    j part1
 	
 partSad:
-	slt 	$t6, $s7, $s6
-	bne 	$t6, $zero, partSad2
-	add 	$s7, $zero, $zero	# set SAD2 0
-	j moveCondition
+    slt 	$t6, $s7, $s6
+    bne 	$t6, $zero, partSad2
+    add 	$s7, $zero, $zero	# set SAD2 0
+    j		moveCondition
 partSad2:
-	add 	$s6, $s7, $zero		# set new SAD
-	add 	$s7, $zero, $zero	# set SAD2 0
-    add     $v0, $s5, $zero
-    add     $v1, $s4, $zero
-	j moveCondition
+    add 	$s6, $s7, $zero		# set new SAD
+    add 	$s7, $zero, $zero	# set SAD2 0
+    add		$v0, $s5, $zero
+    add     	$v1, $s4, $zero
+    j 		moveCondition
 
 moveCondition:
-	addi 	$t0, $zero, 2
-	add 	$t1, $zero, $zero
-	add		$t9, $zero, $zero
-	add		$t2, $zero, $zero
+    addi 	$t0, $zero, 2
+    add 	$t1, $zero, $zero
+    add		$t9, $zero, $zero
+    add		$t2, $zero, $zero
 	
+    addi        $t5, $zero, 3
+    addi        $t4, $zero, 2
+    addi        $t3, $zero, 1
 	
-    addi    $t5, $zero, 3
-    addi    $t4, $zero, 2
-    addi    $t3, $zero, 1
-	
-	beq 	$t8, $zero, conditionRight 
+    beq 	$t8, $zero, conditionRight 
     beq 	$t8, $t3, conditionDown
-	beq 	$t8, $t4, conditionLeft
-	beq		$t8, $t5, conditionUp
+    beq 	$t8, $t4, conditionLeft
+    beq		$t8, $t5, conditionUp
 
 conditionRight:    
-
-	lw		$t6, 4($a0) 	# j
-    sub 	$t6, $t6, $s1	# j-l*
-    slt     $t6, $s4, $t6	# x < j-l*
-    bne     $t6, $zero, moveRight
-	addi    $t8, $t8, 1
-	addi 	$s3, $s3, 1
-	addi 	$t7, $t7, 1
-	beq 	$t7, $t0, exit
+    lw		$t6, 4($a0) 		# j
+    sub 	$t6, $t6, $s1		# j-l*
+    slt    	$t6, $s4, $t6		# x < j-l*
+    bne     	$t6, $zero, moveRight
+    addi	$t8, $t8, 1
+    addi 	$s3, $s3, 1
+    addi 	$t7, $t7, 1
+    beq 	$t7, $t0, exit
     j conditionDown
 
 conditionDown:
-
-	lw		$t6, 0($a0)		# i
-	sub 	$t6, $t6, $s0	# i-k*
-    slt     $t6, $s5, $t6	# y < i-k*
-    bne     $t6, $zero, moveDown
-	addi    $t8, $t8, 1
-	addi 	$s1, $s1, 1
-	addi 	$t7, $t7, 1
-	beq 	$t7, $t0, exit
-	j conditionLeft
+    lw		$t6, 0($a0)		# i
+    sub 	$t6, $t6, $s0		# i-k*
+    slt     	$t6, $s5, $t6		# y < i-k*
+    bne     	$t6, $zero, moveDown
+    addi    	$t8, $t8, 1
+    addi 	$s1, $s1, 1
+    addi 	$t7, $t7, 1
+    beq 	$t7, $t0, exit
+    j conditionLeft
 	
 conditionLeft:
-
-    slt     $t6, $s2, $s4	# x* < x
-    bne     $t6, $zero, moveLeft
-	addi    $t8, $t8, 1
-	addi 	$s0, $s0, 1
-	addi 	$t7, $t7, 1
-	beq 	$t7, $t0, exit
+    slt     	$t6, $s2, $s4		# x* < x
+    bne     	$t6, $zero, moveLeft
+    addi   	$t8, $t8, 1
+    addi 	$s0, $s0, 1
+    addi 	$t7, $t7, 1
+    beq 	$t7, $t0, exit
     j conditionUp
 	
 conditionUp:
-
-    slt     $t6, $s3, $s5	# y* < y
-    bne     $t6, $zero, moveUp
-	add    	$t8, $zero, $zero
-	addi 	$s2, $s2, 1
-	addi 	$t7, $t7, 1
-	beq 	$t7, $t0, exit
+    slt     	$t6, $s3, $s5		# y* < y
+    bne     	$t6, $zero, moveUp
+    add    	$t8, $zero, $zero
+    addi 	$s2, $s2, 1
+    addi 	$t7, $t7, 1
+    beq 	$t7, $t0, exit
     j conditionRight
 			
 moveRight:
-
-	add 	$t7, $zero, $zero
-    addi    $s4, $s4, 1
-	j part4
+    add 	$t7, $zero, $zero
+    addi    	$s4, $s4, 1
+    j 		part4
 
 moveDown:
-
-	add 	$t7, $zero, $zero
-	addi 	$s5, $s5, 1
-	j part4
+    add 	$t7, $zero, $zero
+    addi 	$s5, $s5, 1
+    j 		part4
 	
 moveLeft:
-
-	add 	$t7, $zero, $zero
-	addi 	$s4, $s4, -1
-	j part4
+    add 	$t7, $zero, $zero
+    addi 	$s4, $s4, -1
+    j 		part4
 	
 moveUp:
-
-	add 	$t7, $zero, $zero
-	addi 	$s5, $s5, -1
-	j part4
+    add 	$t7, $zero, $zero
+    addi 	$s5, $s5, -1
+    j part4
 	
 exit:
-	jr $ra
+    jr		$ra
