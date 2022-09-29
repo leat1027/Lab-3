@@ -864,7 +864,7 @@ south2:
 west:
     add $s4, $s2, $zero 		# $s4 = right = i
 westloop:
-    slt $t2, $s4, $s2		# $t2 = 1 if right >= left
+    sge $t2, $s4, $s2		# $t2 = 1 if right >= left
     beq $t2, $zero, west2       	#if $t2 = 0 branch to west2
     addi $s0, $s0, -4                #for east $s0 adds 4
     j        sad
@@ -882,7 +882,7 @@ west2:
 north:
     add $s4, $s1, $zero 		# $s4 = bottom = i
 northloop:    
-    slt $t2, $s4, $s6		# $t2 = 1 if bottom < top
+    sge $t2, $s4, $s6		# $t2 = 1 if bottom < top
     beq $t2, $zero, north2        #if $t2 = 0 branch to north2
     lw $t1, 4($a0)                   # $t1 = # of rows
     mul $t1, $t1, 4                  # $t1 = $t1 * 4
