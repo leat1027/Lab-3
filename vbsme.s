@@ -844,7 +844,7 @@ south:
    add $s4, $s6, $zero 		# $s4 = top = i
 southloop:
    sle $t2, $s4, $s1		# $t2 = 1 if top <= bottom
-   beq $t2, $zero, east2        #if $t2 = 0 branch to south2
+   beq $t2, $zero, south2        #if $t2 = 0 branch to south2
    lw $t1, 4($a0)                   # $t1 = # of rows
    mul $t1, $t1, 4                  # $t1 = $t1 * 4
    add $s0, $s0, $t1                # $s0 = #s0 + #t1
