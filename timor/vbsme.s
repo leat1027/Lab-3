@@ -775,167 +775,188 @@ print_result:
 
 
 # Begin subroutine
-
-#
-#
-#
-#
-#
-
 vbsme:  
-    li      	$v0, 0			# reset $v0 and $V1
-    li      	$v1, 0
+    li      $v0, 0              # reset $v0 and $V1
+    li      $v1, 0
+
+    # insert your code here
 	
-    addi    	$s6, $zero, 32767	# sad
-    add     	$s7, $zero, $zero	# sad2
-    add     	$t8, $zero, $zero   	#0 right, 1 down, 2 left, 3 up
+	#	$s6 main SAD register
+	#	$s7 temporary SAD register to compare
+	#	$s8 stores 0,1,2 or 3 for switch case of moving
+	#	$s4 stores X (column number)
+	#	$s5 stores Y (row number)
+	#	$s0 stores down limit
+	#	$s1 stores right limit
+	#	$s2 stores left limit
+	#	$s3 stores up limit
+	# 	$t7 stores value to check if infinite loop, if so quit
+	
+	addi 	$s6, $zero, 32767	# Main SAD register
+	add 	$s7, $zero, $zero	# sad2
+    add     $t8, $zero, $zero 	# 0 right, 1 down, 2 left, 3 up
 
-    add     	$s4, $zero, $zero 	# x (column)
-    add     	$s5, $zero, $zero 	# y  (row)
+    add     $s4, $zero, $zero 	# x (column)
+    add     $s5, $zero, $zero 	# y  (row)
 
-    lw		$s0, 8($a0)     	# k	down limit
-    lw 		$s1, 12($a0) 		# l	right limit
-
-    add 	$s2, $zero, $zero	# left	left limit
-
-    add 	$s3, $zero, $zero	# up	up limit
-
-    add 	$t7, $zero, $zero	# for quitting when reaching middle
+	lw		$s0, 8($a0) 		# k			down limit	
+	lw 		$s1, 12($a0) 		# l			right limit
+	add 	$s2, $zero, $zero	# left		left limit
+	add 	$s3, $zero, $zero	# up		up limit
+	add 	$t7, $zero, $zero	# for quitting when reaching middle
 	
 part0:
-    add 	$t0, $zero, $zero
-    add 	$t1, $zero, $zero
-    add		$t9, $zero, $zero
-    add		$t2, $zero, $zero
+	add 	$t0, $zero, $zero
+	add 	$t1, $zero, $zero
+	add		$t9, $zero, $zero
+	add		$t2, $zero, $zero
 	
 part1:	
-    lw		$t6, 12($a0) # l
-    slt 	$t6, $t0, $t6		# !end of row, loop
-    bne 	$t6, $zero, part2
-    j part3
+	lw		$t6, 12($a0) # l
+	slt 	$t6, $t0, $t6		# loop: while x < column_length of window
+	bne 	$t6, $zero, part2
+	j part3
 	
-part2:
-    sll 	$t6, $t9, 2			
-    add 	$t6, $t6, $a2
-    lw		$t4, 0($t6)		# t4 window
+part2:	# instruction to do SAD for a coordinate
 	
-    sll		$t6, $t2, 2
-    add 	$t6, $t6, $a1	
-    lw		$t5, 0($t6)		# t5 frame
+	sll 	$t6, $t9, 2			
+	add 	$t6, $t6, $a2
+	lw		$t4, 0($t6)			# load window value
 	
-    sub 	$t3, $t4, $t5
-    abs 	$t3, $t3
-    add 	$s7, $s7, $t3		# sad2
-    addi 	$t0, $t0, 1		# next column
-    addi 	$t2, $t2, 1
-    addi	$t9, $t9, 1
-    j		part1
+	sll		$t6, $t2, 2
+	add 	$t6, $t6, $a1	
+	lw		$t5, 0($t6)			# load frame value
+	
+	sub 	$t3, $t4, $t5		# subtract: window - frame
+	abs 	$t3, $t3			# absolute_value()
+	add 	$s7, $s7, $t3		# sad2
+	addi 	$t0, $t0, 1			# go to next column
+	addi 	$t2, $t2, 1			
+	addi	$t9, $t9, 1
+	j part1
 	
 part3:
-    addi	$t1, $t1, 1		# next row
-    lw 		$t6, 8($a0)		# k
-    slt 	$t6, $t1, $t6		# t1 < k	
-    bne		$t6, $zero, part4
-    j 		partSad
+	addi	$t1, $t1, 1			# go to next row
+	lw 		$t6, 8($a0)			# k (row_length)
+	slt 	$t6, $t1, $t6		# loop: while y < row_length of window
+	bne		$t6, $zero, part4	
+	j partSad
 	
-part4:
-    lw		$t6, 0($a0)		# i
-    mul 	$t2, $t6, $s5		# i*y
-    mul 	$t6, $t6, $t1		# i*t1
-    add		$t2, $t6, $t2
-    add		$t2, $t2, $s4		# +x
+part4:	# instruction to find the exact coordinate on frame and window
+
+	# find frame location by multiplying j(column_number) by y and loop value					
+	lw		$t6, 4($a0)			# j
+	mul 	$t2, $t6, $s5		# j*y
+	mul 	$t6, $t6, $t1		# j*t1
+	add		$t2, $t6, $t2
+	add		$t2, $t2, $s4		# +x
 	
-    lw		$t6, 12($a0)		# l
-    mul 	$t9, $t6, $t1		# l*t1
-    add 	$t0, $zero, $zero
-    j part1
+	# find frame location by multiplying l(column_number) by loop value
+	lw		$t6, 12($a0)		# l
+	mul 	$t9, $t6, $t1		# l*t1
+	add 	$t0, $zero, $zero
+	j part1
 	
-partSad:
-    slt 	$t6, $s7, $s6
-    bne 	$t6, $zero, partSad2
-    add 	$s7, $zero, $zero	# set SAD2 0
-    j		moveCondition
+partSad:	# compare SAD values
+	slt 	$t6, $s7, $s6		# is SAD_temp < SAD
+	bne 	$t6, $zero, partSad2
+	add 	$s7, $zero, $zero	# set SAD_temp 0 if SAD_temp !< SAD
+	j moveCondition
 partSad2:
-    add 	$s6, $s7, $zero		# set new SAD
-    add 	$s7, $zero, $zero	# set SAD2 0
-    add		$v0, $s5, $zero
-    add     	$v1, $s4, $zero
-    j 		moveCondition
+	add 	$s6, $s7, $zero		# set SAD = SAD_temp if SAD_temp < SAD
+	add 	$s7, $zero, $zero	# set SAD_temp 0
+    add     $v0, $s5, $zero		# store x and y in V registers
+    add     $v1, $s4, $zero
+	j moveCondition
 
 moveCondition:
-    addi 	$t0, $zero, 2
-    add 	$t1, $zero, $zero
-    add		$t9, $zero, $zero
-    add		$t2, $zero, $zero
+	addi 	$t0, $zero, 2		# set to 2 to exit if infinite loop
+	add 	$t1, $zero, $zero	# clear registers
+	add		$t9, $zero, $zero
+	add		$t2, $zero, $zero
 	
-    addi        $t5, $zero, 3
-    addi        $t4, $zero, 2
-    addi        $t3, $zero, 1
+	# set values to compare for switch case
+    addi    $t5, $zero, 3
+    addi    $t4, $zero, 2
+    addi    $t3, $zero, 1
 	
-    beq 	$t8, $zero, conditionRight 
+	# switch statement
+	beq 	$t8, $zero, conditionRight 
     beq 	$t8, $t3, conditionDown
-    beq 	$t8, $t4, conditionLeft
-    beq		$t8, $t5, conditionUp
+	beq 	$t8, $t4, conditionLeft
+	beq		$t8, $t5, conditionUp
 
 conditionRight:    
-    lw		$t6, 4($a0) 		# j
-    sub 	$t6, $t6, $s1		# j-l*
-    slt    	$t6, $s4, $t6		# x < j-l*
-    bne     	$t6, $zero, moveRight
-    addi	$t8, $t8, 1
-    addi 	$s3, $s3, 1
-    addi 	$t7, $t7, 1
-    beq 	$t7, $t0, exit
+	# if $s4(current_position) < j(col_length) - l(col_limit) , then move right, otherwise set switch
+	# statement value to 1(for down) and jump to conditionDown
+	# increment $t7 by 1 to check it against $t0(number 2) to see if switch statement 
+	# was triggered twice (meaning infinite loop / reached center) 
+	# Similar instructions are done in other switch statements
+	lw		$t6, 4($a0) 	# j
+    sub 	$t6, $t6, $s1	# j-l*
+    slt     $t6, $s4, $t6	# x < j-l*
+    bne     $t6, $zero, moveRight
+	addi    $t8, $t8, 1
+	addi 	$s3, $s3, 1
+	addi 	$t7, $t7, 1
+	beq 	$t7, $t0, exit
     j conditionDown
 
 conditionDown:
-    lw		$t6, 0($a0)		# i
-    sub 	$t6, $t6, $s0		# i-k*
-    slt     	$t6, $s5, $t6		# y < i-k*
-    bne     	$t6, $zero, moveDown
-    addi    	$t8, $t8, 1
-    addi 	$s1, $s1, 1
-    addi 	$t7, $t7, 1
-    beq 	$t7, $t0, exit
-    j conditionLeft
+
+	lw		$t6, 0($a0)		# i
+	sub 	$t6, $t6, $s0	# i-k*
+    slt     $t6, $s5, $t6	# y < i-k*
+    bne     $t6, $zero, moveDown
+	addi    $t8, $t8, 1
+	addi 	$s1, $s1, 1
+	addi 	$t7, $t7, 1
+	beq 	$t7, $t0, exit
+	j conditionLeft
 	
 conditionLeft:
-    slt     	$t6, $s2, $s4		# x* < x
-    bne     	$t6, $zero, moveLeft
-    addi   	$t8, $t8, 1
-    addi 	$s0, $s0, 1
-    addi 	$t7, $t7, 1
-    beq 	$t7, $t0, exit
+
+    slt     $t6, $s2, $s4	# x* < x
+    bne     $t6, $zero, moveLeft
+	addi    $t8, $t8, 1
+	addi 	$s0, $s0, 1
+	addi 	$t7, $t7, 1
+	beq 	$t7, $t0, exit
     j conditionUp
 	
 conditionUp:
-    slt     	$t6, $s3, $s5		# y* < y
-    bne     	$t6, $zero, moveUp
-    add    	$t8, $zero, $zero
-    addi 	$s2, $s2, 1
-    addi 	$t7, $t7, 1
-    beq 	$t7, $t0, exit
+
+    slt     $t6, $s3, $s5	# y* < y
+    bne     $t6, $zero, moveUp
+	add    	$t8, $zero, $zero
+	addi 	$s2, $s2, 1
+	addi 	$t7, $t7, 1
+	beq 	$t7, $t0, exit
     j conditionRight
 			
 moveRight:
-    add 	$t7, $zero, $zero
-    addi    	$s4, $s4, 1
-    j 		part4
+									# move command is triggered and when that happens
+	add 	$t7, $zero, $zero		# $t7 is set to zero, meaning not in center and can move
+    addi    $s4, $s4, 1
+	j part4
 
 moveDown:
-    add 	$t7, $zero, $zero
-    addi 	$s5, $s5, 1
-    j 		part4
+
+	add 	$t7, $zero, $zero
+	addi 	$s5, $s5, 1
+	j part4
 	
 moveLeft:
-    add 	$t7, $zero, $zero
-    addi 	$s4, $s4, -1
-    j 		part4
+
+	add 	$t7, $zero, $zero
+	addi 	$s4, $s4, -1
+	j part4
 	
 moveUp:
-    add 	$t7, $zero, $zero
-    addi 	$s5, $s5, -1
-    j part4
+
+	add 	$t7, $zero, $zero
+	addi 	$s5, $s5, -1
+	j part4
 	
 exit:
-    jr		$ra
+	jr $ra
