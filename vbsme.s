@@ -893,7 +893,7 @@ northjump:
     j northloop
 
 north2:
-    addi $s3, $s3, -3 		# dir=dir-3
+    addi $s3, $zero, 0 		# dir=dir-3
     addi $s7, $s7, 1		# left++
     j while
 
