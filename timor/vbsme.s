@@ -844,8 +844,8 @@ part4:
 	add		$t2, $t6, $t2
 	add		$t2, $t2, $s4	# +x
 	
-	lw		$t6, 8($a0)		# k
-	mul 	$t9, $t6, $t1	# k*t1
+	lw		$t6, 12($a0)		# l
+	mul 	$t9, $t6, $t1	# l*t1
 	add 	$t0, $zero, $zero
 	j part1
 	
@@ -880,9 +880,7 @@ moveCondition:
 conditionRight:    
 
 	lw		$t6, 4($a0) 	# j
-
     sub 	$t6, $t6, $s1	# j-l*
-
     slt     $t6, $s4, $t6	# x < j-l*
     bne     $t6, $zero, moveRight
 	addi    $t8, $t8, 1
@@ -894,9 +892,7 @@ conditionRight:
 conditionDown:
 
 	lw		$t6, 0($a0)		# i
-
 	sub 	$t6, $t6, $s0	# i-k*
-
     slt     $t6, $s5, $t6	# y < i-k*
     bne     $t6, $zero, moveDown
 	addi    $t8, $t8, 1
